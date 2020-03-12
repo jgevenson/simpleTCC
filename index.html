@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <link rel="stylesheet" href="lib/style.css" />
+  <script src="lib/script.js"></script>
+</head>
+
+<body>
+  <div>
+    <form id="whole-form">
+      <form>
+        <select id='course-select'>
+          <option value="0" disabled selected>Course</option>
+          <option value="1">Whitebirtch</option>
+          <option value="2">Traditional</option>
+          <option value="3">Deacon's Lodge</option>
+        </select>
+        <select id='hole-select'>
+          <option value="0" disabled selected>Hole</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">2</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+        </select>
+        <input type="button" id="course-hole-select" value='Submit'>
+      </form>
+      <form>
+        <div id='par-display'></div>
+        <fieldset id="team1-area">
+          <legend>Team 1</legend>
+          <label for="t1p1">Player 1:</label>
+          <input type="number" id="t1p1" />
+          <input type="button" id="t1p1-up1" value="+1"/>
+          <input type="button" id="t1p1-down1" value="-1"/>
+          <br />
+          <label for="t1p2">Player 2:</label>
+          <input type="number" id="t1p2" />
+          <input type="button" id="t1p2-up1" value="+1" />
+          <input type="button" id="t1p2-down1" value="-1" />
+          <div id="team1-scores"></div>
+        </fieldset>
+        <fieldset id="team2-area">
+          <legend>Team 2</legend>
+          <label for="t2p1">Player 1:</label>
+          <input type="number" id="t2p1" />
+          <input type="button" id="t2p1-up1" value="+1" />
+          <input type="button" id="t2p1-down1" value="-1" />
+          <br />
+          <label for="t2p2">Player 2:</label>
+          <input type="number" id="t2p2" />
+          <input type="button" id="t2p2-up1" value="+1" />
+          <input type="button" id="t2p2-down1" value="-1" />
+          <div id="team2-scores"></div>
+        </fieldset>
+        <input type="button" name="submit" id="submit" value="Calculate Hole" />
+        <input type="reset" name="reset" id="reset-button" value="Reset" />
+      </form>
+    </form>
+  </div>
+  <div id="result"></div>
+</body>
+
+</html>
