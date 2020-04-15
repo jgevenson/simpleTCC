@@ -1,79 +1,250 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <html>
 
 <head>
-  <link rel="stylesheet" href="style.css" />
-  <script src="script.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-  <div>
-    <form id="whole-form">
-      <form>
-        <select id='course-select'>
-          <option value="0" disabled selected>Course</option>
-          <option value="1">Whitebirtch</option>
-          <option value="2">Traditional</option>
-          <option value="3">Deacon's Lodge</option>
-        </select>
-        <select id='hole-select'>
-          <option value="0" disabled selected>Hole</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">2</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
-        </select>
-        <input type="button" id="course-hole-select" value='Submit'>
-      </form>
-      <form>
-        <div id='par-display'></div>
-        <fieldset id="team1-area">
-          <legend>Team 1</legend>
-          <label for="t1p1">Player 1:</label>
-          <input type="number" id="t1p1" />
-          <input type="button" id="t1p1-up1" value="+1"/>
-          <input type="button" id="t1p1-down1" value="-1"/>
-          <br />
-          <label for="t1p2">Player 2:</label>
-          <input type="number" id="t1p2" />
-          <input type="button" id="t1p2-up1" value="+1" />
-          <input type="button" id="t1p2-down1" value="-1" />
-          <div id="team1-scores"></div>
-        </fieldset>
-        <fieldset id="team2-area">
-          <legend>Team 2</legend>
-          <label for="t2p1">Player 1:</label>
-          <input type="number" id="t2p1" />
-          <input type="button" id="t2p1-up1" value="+1" />
-          <input type="button" id="t2p1-down1" value="-1" />
-          <br />
-          <label for="t2p2">Player 2:</label>
-          <input type="number" id="t2p2" />
-          <input type="button" id="t2p2-up1" value="+1" />
-          <input type="button" id="t2p2-down1" value="-1" />
-          <div id="team2-scores"></div>
-        </fieldset>
-        <input type="button" name="submit" id="submit" value="Calculate Hole" />
-        <input type="reset" name="reset" id="reset-button" value="Reset" />
-      </form>
-    </form>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Tsunami's Cup</a>
+    <button class="btn btn-secondary" id="change-hole-button">Change Hole</button>
+    <button type="button" class="btn btn-toolbar" id="skip-ahead">Beta</button>
+  </nav>
+  <div class="container-fluid">
+    <div class="card" id="player-names-input-card">
+      <div class="card-header">Enter the players names for the scorecard</div>
+      <div class="row">
+        <div class="col">
+          <form id="player-names-form">
+            <fieldset>
+              <legend>
+                <h5>Team 1</h5>
+              </legend>
+              <div class="form-group">
+                <label>Player 1</label>
+                <input type="text" id="team1player1Name-input" class="form-control" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label>Player 2</label>
+                <input type="text" id="team1player2Name-input" class="form-control" autocomplete="off">
+              </div>
+            </fieldset>
+            <hr>
+            <fieldset>
+              <legend>
+                <h5>Team 2</h5>
+              </legend>
+              <div class="form-group">
+                <label>Player 1</label>
+                <input type="text" id="team2player1Name-input" class="form-control" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label>Player 2</label>
+                <input type="text" id="team2player2Name-input" class="form-control" autocomplete="off">
+              </div>
+            </fieldset><br>
+            <button type="button" class="btn btn-primary col" id="player-name-submit-button" disabled>Continue</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="selector-card">
+      <div class="row">
+        <div class="col-6">
+          <form id="course-select-form">
+            <div class="form-group">
+              <label>Select Course:</label>
+              <select class="form-control form-control-lg" id="course-select">
+                <option value='' disabled selected>Course</option>
+                <option value="0">Deacon's Lodge</option>
+                <option value="1">Traditional</option>
+                <option value="2">Whitebirch</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="col-6">
+          <form id="hole-select-form">
+            <div class="form-group">
+              <label>Select Hole:</label>
+              <select class="form-control form-control-lg" id="hole-select">
+                <option value='' disabled selected>Hole</option>
+                <option value="0">#1</option>
+                <option value="1">#2</option>
+                <option value="2">#3</option>
+                <option value="3">#4</option>
+                <option value="4">#5</option>
+                <option value="5">#6</option>
+                <option value="6">#7</option>
+                <option value="7">#8</option>
+                <option value="8">#9</option>
+                <option value="9">#10</option>
+                <option value="10">#11</option>
+                <option value="11">#12</option>
+                <option value="12">#13</option>
+                <option value="13">#14</option>
+                <option value="14">#15</option>
+                <option value="15">#16</option>
+                <option value="16">#17</option>
+                <option value="17">#18</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="col">
+          <input id="submit-hole-button" disabled type="button" value="Enter Scores" class="btn btn-primary col">
+        </div>
+      </div>
+    </div>
+    <div class="card" id="hole-info-display">
+      <div class="card-body">
+        <div class="card-title">
+          <div class="row">
+            <h4 id="course-name-display"></h4>
+          </div>
+        </div>
+        <div class="card-text row justify-content-start">
+          <div class='hole-number-display-graphic'>#<span id="hole-number-display"></span></div>
+          <div class="col-auto">
+            <div>Par: <span id="par-display"></span></div>
+            <div>Hdcp: <span id="hdcp-display"></span></div>
+            <div>Distance: <span id="distance-display"></span> yds</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="scores-entry-card">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="card-title">Score Card</h4>
+        </div>
+        <div class="col-12">
+          <form id="scores-entry-form">
+            <div>
+              <fieldset>
+                <legend>
+                  <h5 id="team1-label">Team 1</h5>
+                </legend>
+                <div class="form-group score-input-rows row">
+                  <label for="team1player1" id="team1player1-label" class="col-4"></label>
+                  <div class="col-2 player-input-helper">
+                    <input type="number" readonly class="form-control player-input-field pb-0 pt-0 pl-0 pr-0" id="team1player1-score-input" placeholder="score">
+                  </div>
+                  <div class="plus-minus-buttons col-3">
+                    <button type="button" class="btn btn-sm btn-secondary" id="player1team1-plus-button">
+                      <i class="material-icons">exposure_plus_1</i>
+                    </button>
+                  </div>
+                  <div class="plus-minus-buttons col-3">
+                    <button type="button" class="btn btn-sm btn-secondary" id="player1team1-minus-button">
+                      <i class="material-icons">exposure_neg_1</i>
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group score-input-rows row">
+                  <label for="team1player2" id="team1player2-label" class="col-4"></label>
+                  <div class="col-2 player-input-helper">
+                    <input type="number" readonly class="form-control player-input-field pb-0 pt-0 pr-0 pl-0" id="team1player2-score-input" placeholder="score">
+                  </div>
+                  <div class="plus-minus-buttons col-3">
+                    <button type="button" class="btn btn-sm btn-secondary" id="player2team1-plus-button">
+                      <i class="material-icons">exposure_plus_1</i>
+                    </button>
+                  </div>
+                  <div class="plus-minus-buttons col-3">
+                    <button type="button" class="btn btn-sm btn-secondary" id="player2team1-minus-button">
+                      <i class="material-icons">exposure_neg_1</i>
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <hr>
+            <div>
+              <fieldset>
+                <legend>
+                  <h5 id="team2-label">Team 2</h5>
+                </legend>
+                <div class="form-group score-input-rows row">
+                  <label for="team2player1" id="team2player1-label" class="col-4"></label>
+                  <div class="player-input-helper col-2">
+                    <input type="number" readonly class="form-control player-input-field pb-0 pt-0 pl-0 pr-0" id="team2player1-score-input" placeholder="score">
+                  </div>
+                  <div class="plus-minus-buttons col-3">
+                    <button type="button" class="btn btn-sm btn-secondary" id="player1team2-plus-button">
+                      <i class="material-icons">exposure_plus_1</i>
+                    </button>
+                  </div>
+                  <div class="plus-minus-buttons col-3">
+                    <button type="button" class="btn btn-sm btn-secondary" id="player1team2-minus-button">
+                      <i class="material-icons">exposure_neg_1</i>
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group score-input-rows row">
+                  <label for="team2player2" id="team2player2-label" class="col-4"></label>
+                  <div class="player-input-helper col-2">
+                    <input type="number" readonly class="form-control player-input-field pb-0 pt-0 pl-0 pr-0" id="team2player2-score-input" placeholder="score">
+                  </div>
+                  <div class="plus-minus-buttons col-3">
+                    <button type="button" class="btn btn-sm btn-secondary" id="player2team2-plus-button">
+                      <i class="material-icons">exposure_plus_1</i>
+                    </button>
+                  </div>
+                  <div class="plus-minus-buttons col-3">
+                    <button type="button" class="btn btn-sm btn-secondary" id="player2team2-minus-button">
+                      <i class="material-icons">exposure_neg_1</i>
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+            </div><br>
+            <button id="submit-page-button" type="button" class="btn btn-primary col" data-toggle="modal" data-target="#hole-result-modal">Calculate Scores</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="result"></div>
+  <!-- Hole Results Modal -->
+  <div class="modal fade" id="hole-result-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title m-auto" id="hole-result-modal-header"></h6>
+        </div>
+        <div class="modal-body" id="hole-result-modal-body">
+          <div class="row">
+            <div class="col-6 text-center">
+              <h5 class="m-auto" id="team1-score-modal-label"></h5>
+              <div class="m-auto" id="team1-score-modal"></div>
+            </div>
+            <div class="col-6 text-center">
+              <h5 class="m-auto" id="team2-score-modal-label"></h5>
+              <div class="m-auto" id="team2-score-modal"></div>
+            </div>
+            <div class="pt-2 m-auto font-weight-bold" id="hole-overall-report"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="next-hole-button">Continue to Next Hole</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
+
+</html>
 
 </html>
