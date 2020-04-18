@@ -14,6 +14,8 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Tsunami's Cup</a>
     <button class="btn btn-secondary" id="change-hole-button">Change Hole</button>
+    <button class="btn btn-secondary" id="edit-player-names">Edit Names</button>
+    <button type="button" class="btn btn-toolbar" data-toggle="modal" data-target="#scorecard" id="showScorecardButton">Scorecard</button>
     <button type="button" class="btn btn-toolbar" id="skip-ahead">Beta</button>
   </nav>
   <div class="container-fluid">
@@ -56,8 +58,8 @@
     </div>
     <div class="card" id="selector-card">
       <div class="row">
-        <div class="col-6">
-          <form id="course-select-form">
+        <div class="col-6" id="course-select-form">
+          <form>
             <div class="form-group">
               <label>Select Course:</label>
               <select class="form-control form-control-lg" id="course-select">
@@ -69,8 +71,8 @@
             </div>
           </form>
         </div>
-        <div class="col-6">
-          <form id="hole-select-form">
+        <div id="hole-select-form" class="col-6">
+          <form>
             <div class="form-group">
               <label>Select Hole:</label>
               <select class="form-control form-control-lg" id="hole-select">
@@ -233,7 +235,325 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="next-hole-button">Continue to Next Hole</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="next-hole-button">Continue</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="complete-round-button">Complete Round</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Scorecard -->
+  <div class="modal fade" id="scorecard" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl full-screen-modal" role="document">
+      <div class="modal-content">
+        <!--<div class="modal-header modal-headerfooter-fix">
+          <h6 class="modal-title m-auto" id="...">Scorecard</h6>
+        </div>-->
+        <div class="modal-body" id="...">
+          <table>
+            <colgroup>
+              <col style="width: 8%">
+              <col style="width: 23%">
+              <col style="width: 23%">
+              <col style="width: 23%">
+              <col style="width: 23%">
+            </colgroup>
+            <tr class="header-row">
+              <th class="blank-table-cell"></th>
+              <th>
+                <div class="scorecard-player-names" id="scorecard-team1player1-name">Jake</div>
+              </th>
+              <th>
+                <div class="scorecard-player-names" id="scorecard-team1player2-name">Luke</div>
+              </th>
+              <th>
+                <div class="scorecard-player-names" id="scorecard-team2player1-name">Matt</div>
+              </th>
+              <th>
+                <div class="scorecard-player-names" id="scorecard-team2player2-name">Schnei</div>
+              </th>
+              <!--FIVE CHARACTER MAX Going to have to calculate that in JS-->
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">1</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h1" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h1" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h1" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h1" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">2</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h2" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h2" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h2" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h2" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">3</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h3" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h3" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h3" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h3" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">4</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h4" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h4" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h4" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h4" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">5</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h5" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h5" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h5" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h5" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">6</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h6" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h6" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h6" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h6" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">7</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h7" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h7" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h7" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h7" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">8</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h8" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h8" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h8" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h8" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">9</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h9" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h9" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h9" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h9" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">10</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h10" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h10" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h10" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h10" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">11</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h11" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h11" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h11" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h11" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">12</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h12" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h12" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h12" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h12" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">13</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h13" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h13" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h13" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h13" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">14</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h14" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h14" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h14" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h14" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">15</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h15" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h15" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h15" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h15" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">16</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h16" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h16" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h16" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h16" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">17</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h17" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h17" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h17" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h17" class="player-score"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="scorecard-holenumber-column">18</td>
+              <td class="scorecard-player-cell">
+                <div id="t1p1h18" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t1p2h18" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p1h18" class="player-score"></div>
+              </td>
+              <td class="scorecard-player-cell">
+                <div id="t2p2h18" class="player-score"></div>
+              </td>
+            </tr>
+            <tr id="scorecard-total-row">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer modal-headerfooter-fix">
+          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="scorecard-ok-button">Ok</button>
         </div>
       </div>
     </div>
