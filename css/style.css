@@ -69,15 +69,75 @@ legend {
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
-  
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;
     /* Support for Safari and Chrome. */
     text-rendering: optimizeLegibility;
-  
     /* Support for Firefox. */
     -moz-osx-font-smoothing: grayscale;
-  
     /* Support for IE. */
     font-feature-settings: 'liga';
-  }
+}
+.full-screen-modal {
+      margin: 0px;
+}
+.full-screen-modal>div {
+      height: 100vh;
+      width: 100vw;
+      border-radius: 0px;
+}
+.modal-headerfooter-fix {
+      max-height: fit-content;
+      padding-top: 4px;
+      padding-bottom: 8px;
+}
+table {
+      width: 100%;
+}
+.blank-table-cell {
+    border: none;
+}
+th, td {
+    border: 1px solid black;
+    text-align: center;
+    font-weight: 900;
+}
+.scorecard-holenumber-column {
+    font-weight: 700;
+}
+.scorecard-player-names {
+    overflow: hidden;
+    display: inline;
+}
+.header-row {
+    height: auto;
+}
+.player-score {
+    display: inline-block;
+    padding: 1px 8px;
+    margin: 1px;
+}
+.double-bogey {
+    border: medium;
+    border-style: double;
+}
+.bogey {
+    border: thin;
+    border-style: solid;
+}
+.par {
+    border: none;
+}
+.birdie {
+    border: thin;
+    border-style: solid;
+    border-radius: 14px;
+}
+.under-birdie {
+    border: medium;
+    border-style: double;
+    border-radius: 16px;
+}
+tr {
+    height: 37px;
+}
