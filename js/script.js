@@ -546,7 +546,9 @@ const whitebirchHoleInfo = [
 	}
 ];
 
-const playerNameInputCard = document.getElementById('player-names-input-card'),
+const editPlayerNames = document.getElementById('edit-player-names'),
+	showScorecardButton = document.getElementById('showScorecardButton'),
+	playerNameInputCard = document.getElementById('player-names-input-card'),
 	playerNameSubmitButton = document.getElementById('player-name-submit-button'),
 	team1player1NameInput = document.getElementById('team1player1Name-input'),
 	team1player2NameInput = document.getElementById('team1player2Name-input'),
@@ -554,6 +556,8 @@ const playerNameInputCard = document.getElementById('player-names-input-card'),
 	team2player2NameInput = document.getElementById('team2player2Name-input'),
 	changeHoleButton = document.getElementById('change-hole-button'),
 	courseHoleSelectionCard = document.getElementById('selector-card'),
+	holeselectform = document.getElementById('hole-select-form'),
+	courseSelectForm = document.getElementById('course-select-form'),
 	courseDropdown = document.getElementById('course-select'),
 	holeDropdown = document.getElementById('hole-select'),
 	courseHoleSubmitButton = document.getElementById('submit-hole-button'),
@@ -592,16 +596,30 @@ const playerNameInputCard = document.getElementById('player-names-input-card'),
 	team2ScoreModalLabel = document.getElementById('team2-score-modal-label'),
 	team2ScoreDisplayModal = document.getElementById("team2-score-modal"),
 	holeOverallReportModal = document.getElementById("hole-overall-report"),
-	nextHoleButton = document.getElementById('next-hole-button');
+	nextHoleButton = document.getElementById('next-hole-button'),
+	completeRoundButton = document.getElementById('complete-round-button');
 //Setting Display settings
 courseHoleSelectionCard.style.display = 'none';
+holeselectform.style.display = 'none';
+function selectHoleCardStyle() {
+	if (holeselectform.style.display === 'none') {
+		courseSelectForm.classList.add('col-12');
+	} else {
+		courseSelectForm.classList.add('col-6');
+	};
+}
+selectHoleCardStyle();
+
 scoreEntryCard.style.display = 'none';
 holeInfoCard.style.display = 'none';
 changeHoleButton.style.display = 'none';
+editPlayerNames.style.display = 'none';
 //Initialize Variables
 let courseHoleCardValid = false,
 	nameCardValid = false,
-	startOnOne = true;
+	startOnOne = true,
+	playerNamesExist = false;
+holeDropdown.value = 0;
 
 function liveValidateNameCard() {
 	if (team1player1NameInput.value === '') {
@@ -623,16 +641,14 @@ team1player2NameInput.addEventListener('input', liveValidateNameCard)
 team2player1NameInput.addEventListener('input', liveValidateNameCard)
 team2player2NameInput.addEventListener('input', liveValidateNameCard)
 
-
-function submitNames() {
+function writeNamesLocal() {
 	localStorage.setItem('team1player1Name', team1player1NameInput.value);
 	localStorage.setItem('team1player2Name', team1player2NameInput.value);
 	localStorage.setItem('team2player1Name', team2player1NameInput.value);
 	localStorage.setItem('team2player2Name', team2player2NameInput.value);
-	playerNameInputCard.style.display = 'none';
-	courseHoleSelectionCard.style.display = '';
+	playerNamesExist = true;
 }
-function writeNamestoScoreCard() {
+function writeNamesToEnterScores() {
 	team1player1Label.innerText = localStorage.getItem('team1player1Name');
 	team1player2Label.innerText = localStorage.getItem('team1player2Name');
 	team2player1Label.innerText = localStorage.getItem('team2player1Name');
@@ -657,15 +673,18 @@ function validateNamesEntered() {
 		playerNameSubmitButton.disabled = true;
 		nameCardValid = false;
 	} else {
-		submitNames();
-		writeNamestoScoreCard();
-		console.log(team1player2NameInput.value);
+		writeNamesLocal();
+		writeNamesToEnterScores();
+		playerNameInputCard.style.display = 'none';
+		courseHoleSelectionCard.style.display = '';
 	}
 }
+playerNameSubmitButton.addEventListener('click', validateNamesEntered);
 
 
 function getSelectedCourse() {
 	let selectedCourse = parseInt(courseDropdown.value);
+	localStorage.setItem('currentCourse', selectedCourse);
 	return selectedCourse;
 }
 
@@ -681,17 +700,16 @@ function getSelectedHole() {
 		case 2:
 			holeObject = whitebirchHoleInfo[selectedHole];
 			break;
-	}
+	};
 	return holeObject;
 }
 
-function activateEnterScores() {
-	if (courseDropdown.value === '' || holeDropdown.value === '') {
+function validateCouseHole() {
+	if (courseDropdown.value === '') {
 	} else {
 		courseHoleSubmitButton.disabled = false;
-		getSelectedCourse();
-		getSelectedHole();
 		courseHoleCardValid = true;
+		getSelectedHole();
 	}
 }
 
@@ -728,9 +746,8 @@ function changeHole() {
 	scoreEntryCard.style.display = 'none';
 }
 
-playerNameSubmitButton.addEventListener('click', validateNamesEntered);
-courseDropdown.addEventListener('change', activateEnterScores);
-holeDropdown.addEventListener('change', activateEnterScores);
+courseDropdown.addEventListener('change', validateCouseHole);
+holeDropdown.addEventListener('change', validateCouseHole);
 courseHoleSubmitButton.addEventListener('click', displayHoleSelected);
 changeHoleButton.addEventListener('click', changeHole);
 
@@ -872,10 +889,32 @@ function calculateHole() {
 	team1ScoreDisplayModal.innerText = team1Vegas + ' points';
 	team2ScoreModalLabel.innerText = localStorage.getItem('team2player1Name') + '/' + localStorage.getItem('team2player2Name');
 	team2ScoreDisplayModal.innerText = team2Vegas + ' points';
+	if (holeDropdown.value < 17) {
+		completeRoundButton.style.display = 'none';
+	} else {
+		nextHoleButton.style.display = 'none';
+	};
 }
 submitPageButton.addEventListener('click', calculateHole);
 
-//nextHoleButton = document.getElementById('next-hole-button');
+
+function goToNextHole() {
+	if (playerNamesExist) {
+		writeNamesToEnterScores();
+		if (holeDropdown.value <=16) {
+			holeDropdown.value++;
+		} else {
+			console.log('error here, I should not see the go to nexthole button here')
+		};
+		console.log(holeDropdown.value);
+		getSelectedHole();
+		displayHoleSelected();
+	} else {
+		playerNameInputCard.style.display = '';
+	};
+}
+
+nextHoleButton.addEventListener('click', goToNextHole);
 
 //
 //
@@ -890,12 +929,10 @@ betaButton.addEventListener('click', function () {
 	document.getElementById('team1player2Name-input').value = 'Luke';
 	document.getElementById('team2player1Name-input').value = 'Matt';
 	document.getElementById('team2player2Name-input').value = 'Schneider';
-	submitNames();
-	writeNamestoScoreCard();
+	validateNamesEntered();
 	playerNameInputCard.style.display = '';
-	holeDropdown.value = '0';
 	courseDropdown.value = '0';
-	activateEnterScores()
+	validateCouseHole();
 	displayHoleSelected();
 	courseHoleSelectionCard.style.display = '';
 });
