@@ -545,6 +545,15 @@ const whitebirchHoleInfo = [
 		"holeHandicap": 8
 	}
 ];
+//___________________________________________Helper Functions_________________________________________
+//truncate a string to a given number of characters
+function truncateString(string, num) {
+	if (String(string).length <= num) {
+		return string;
+	} else {
+		return String(string).slice(0, num);
+	}
+}
 
 const editPlayerNames = document.getElementById('edit-player-names'),
 	showScorecardButton = document.getElementById('showScorecardButton'),
@@ -597,10 +606,16 @@ const editPlayerNames = document.getElementById('edit-player-names'),
 	team2ScoreDisplayModal = document.getElementById("team2-score-modal"),
 	holeOverallReportModal = document.getElementById("hole-overall-report"),
 	nextHoleButton = document.getElementById('next-hole-button'),
-	completeRoundButton = document.getElementById('complete-round-button');
+	completeRoundButton = document.getElementById('complete-round-button'),
+	//ScoreCard Modal
+	scorecard_t1p1_name = document.getElementById('scorecard-team1player1-name'),
+	scorecard_t1p2_name = document.getElementById('scorecard-team1player2-name'),
+	scorecard_t2p1_name = document.getElementById('scorecard-team2player1-name'),
+	scorecard_t2p2_name = document.getElementById('scorecard-team2player2-name');
 //Setting Display settings
 courseHoleSelectionCard.style.display = 'none';
 holeselectform.style.display = 'none';
+showScorecardButton.style.display = 'none';
 function selectHoleCardStyle() {
 	if (holeselectform.style.display === 'none') {
 		courseSelectForm.classList.add('col-12');
@@ -614,12 +629,12 @@ scoreEntryCard.style.display = 'none';
 holeInfoCard.style.display = 'none';
 changeHoleButton.style.display = 'none';
 editPlayerNames.style.display = 'none';
+holeDropdown.value = 0;
 //Initialize Variables
 let courseHoleCardValid = false,
 	nameCardValid = false,
 	startOnOne = true,
 	playerNamesExist = false;
-holeDropdown.value = 0;
 
 function liveValidateNameCard() {
 	if (team1player1NameInput.value === '') {
@@ -648,11 +663,21 @@ function writeNamesLocal() {
 	localStorage.setItem('team2player2Name', team2player2NameInput.value);
 	playerNamesExist = true;
 }
+
 function writeNamesToEnterScores() {
-	team1player1Label.innerText = localStorage.getItem('team1player1Name');
-	team1player2Label.innerText = localStorage.getItem('team1player2Name');
-	team2player1Label.innerText = localStorage.getItem('team2player1Name');
-	team2player2Label.innerText = localStorage.getItem('team2player2Name');
+	let t1p1_Name = localStorage.getItem('team1player1Name'),
+		t1p2_Name = localStorage.getItem('team1player2Name'),
+		t2p1_Name = localStorage.getItem('team2player1Name'),
+		t2p2_Name = localStorage.getItem('team2player2Name');
+	let n = 8;
+	team1player1Label.innerText = truncateString(t1p1_Name, n);
+	team1player2Label.innerText = truncateString(t1p2_Name, n);
+	team2player1Label.innerText = truncateString(t2p1_Name, n);
+	team2player2Label.innerText = truncateString(t2p2_Name, n);
+	scorecard_t1p1_name.innerText = truncateString(t1p1_Name, n);
+	scorecard_t1p2_name.innerText = truncateString(t1p2_Name, n);
+	scorecard_t2p1_name.innerText = truncateString(t2p1_Name, n);
+	scorecard_t2p2_name.innerText = truncateString(t2p2_Name, n);
 }
 
 function validateNamesEntered() {
@@ -684,7 +709,6 @@ playerNameSubmitButton.addEventListener('click', validateNamesEntered);
 
 function getSelectedCourse() {
 	let selectedCourse = parseInt(courseDropdown.value);
-	localStorage.setItem('currentCourse', selectedCourse);
 	return selectedCourse;
 }
 
@@ -727,16 +751,30 @@ function displayHoleSelected() {
 		holeInfoCard.style.display = '';
 		courseHoleSelectionCard.style.display = 'none';
 		changeHoleButton.style.display = '';
+		courseSelectForm.style.display = 'none';
+		holeselectform.style.display = '';
 		scoreEntryCard.style.display = '';
-		team1player1ScoreInput.defaultValue = getSelectedHole().holePar;
-		team1player2ScoreInput.defaultValue = getSelectedHole().holePar;
-		team2player1ScoreInput.defaultValue = getSelectedHole().holePar;
-		team2player2ScoreInput.defaultValue = getSelectedHole().holePar;
-		team1player1ScoreInput.value = getSelectedHole().holePar;
-		team1player2ScoreInput.value = getSelectedHole().holePar;
-		team2player1ScoreInput.value = getSelectedHole().holePar;
-		team2player2ScoreInput.value = getSelectedHole().holePar;
-	}
+		showScorecardButton.style.display = '';
+		let sh = getSelectedHole();
+		let c = sh.courseID;
+		let h = sh.hole - 1;
+		let localCH = JSON.parse(localStorage.getItem(c + '-' + h));
+		if (localCH !== null) {
+			team1player1ScoreInput.value = localCH.t1p1Score;
+			team1player2ScoreInput.value = localCH.t1p2Score;
+			team2player1ScoreInput.value = localCH.t2p1Score;
+			team2player2ScoreInput.value = localCH.t2p2Score;
+		} else {
+			team1player1ScoreInput.defaultValue = sh.holePar;
+			team1player2ScoreInput.defaultValue = sh.holePar;
+			team2player1ScoreInput.defaultValue = sh.holePar;
+			team2player2ScoreInput.defaultValue = sh.holePar;
+			team1player1ScoreInput.value = sh.holePar;
+			team1player2ScoreInput.value = sh.holePar;
+			team2player1ScoreInput.value = sh.holePar;
+			team2player2ScoreInput.value = sh.holePar;
+		};
+	};
 }
 
 function changeHole() {
@@ -817,7 +855,7 @@ function calculateHole() {
 	let par = getSelectedHole().holePar;
 	let hole = getSelectedHole().hole;
 	let courseID = getSelectedHole().courseID;
-	let holeCourseID = courseID.toString() + '-' + hole.toString();
+	let holeCourseID = courseID.toString() + '-' + holeDropdown.value.toString();
 	let courseString = getSelectedHole().courseString;
 	let t1p1Score = parseInt(team1player1ScoreInput.value);
 	let t1p2Score = parseInt(team1player2ScoreInput.value);
@@ -841,8 +879,8 @@ function calculateHole() {
 	};
 	var team1Vegas = parseInt(team1Scores[0].toString() + team1Scores[1].toString());
 	var team2Vegas = parseInt(team2Scores[0].toString() + team2Scores[1].toString());
-	function pointOrPoints(a,b) {
-		if (a-b > 1){
+	function pointOrPoints(a, b) {
+		if (a - b > 1) {
 			p = 'points';
 		} else {
 			p = 'point'
@@ -859,16 +897,16 @@ function calculateHole() {
 		holeTied = false;
 		team1Win = false;
 		team2Win = true;
-		modalHeaderText = localStorage.getItem('team2player1Name') + '/' + localStorage.getItem('team2player2Name') + ' win by ' + (team1Vegas-team2Vegas) + ' ' + pointOrPoints(team1Vegas,team2Vegas);
+		modalHeaderText = localStorage.getItem('team2player1Name') + '/' + localStorage.getItem('team2player2Name') + ' win by ' + (team1Vegas - team2Vegas) + ' ' + pointOrPoints(team1Vegas, team2Vegas);
 		holeOverallReportModal.style.display = 'none';
 	} else {
 		holeTied = false;
 		team1Win = true;
 		team2Win = false;
-		modalHeaderText = localStorage.getItem('team1player1Name') + '/' + localStorage.getItem('team1player2Name') + ' win by ' + (team2Vegas-team1Vegas) + ' ' + pointOrPoints(team2Vegas,team1Vegas);
+		modalHeaderText = localStorage.getItem('team1player1Name') + '/' + localStorage.getItem('team1player2Name') + ' win by ' + (team2Vegas - team1Vegas) + ' ' + pointOrPoints(team2Vegas, team1Vegas);
 		holeOverallReportModal.style.display = 'none';
 	};
-	localStorage.setItem('holeCalc' + holeCourseID, JSON.stringify({
+	localStorage.setItem(holeCourseID, JSON.stringify({
 		courseID: courseID,
 		courseString: courseString,
 		holeNumber: hole,
@@ -901,14 +939,14 @@ submitPageButton.addEventListener('click', calculateHole);
 function goToNextHole() {
 	if (playerNamesExist) {
 		writeNamesToEnterScores();
-		if (holeDropdown.value <=16) {
+		if (holeDropdown.value <= 16) {
 			holeDropdown.value++;
 		} else {
 			console.log('error here, I should not see the go to nexthole button here')
 		};
-		console.log(holeDropdown.value);
 		getSelectedHole();
 		displayHoleSelected();
+		showScorecardButton.click();
 	} else {
 		playerNameInputCard.style.display = '';
 	};
@@ -916,24 +954,275 @@ function goToNextHole() {
 
 nextHoleButton.addEventListener('click', goToNextHole);
 
+//****************************************ScoreCard************************************/
+let t1p1h1 = document.getElementById('t1p1h1'),
+	t1p2h1 = document.getElementById('t1p2h1'),
+	t2p1h1 = document.getElementById('t2p1h1'),
+	t2p2h1 = document.getElementById('t2p2h1'),
+	t1p1h2 = document.getElementById('t1p1h2'),
+	t1p2h2 = document.getElementById('t1p2h2'),
+	t2p1h2 = document.getElementById('t2p1h2'),
+	t2p2h2 = document.getElementById('t2p2h2'),
+	t1p1h3 = document.getElementById('t1p1h3'),
+	t1p2h3 = document.getElementById('t1p2h3'),
+	t2p1h3 = document.getElementById('t2p1h3'),
+	t2p2h3 = document.getElementById('t2p2h3'),
+	t1p1h4 = document.getElementById('t1p1h4'),
+	t1p2h4 = document.getElementById('t1p2h4'),
+	t2p1h4 = document.getElementById('t2p1h4'),
+	t2p2h4 = document.getElementById('t2p2h4'),
+	t1p1h5 = document.getElementById('t1p1h5'),
+	t1p2h5 = document.getElementById('t1p2h5'),
+	t2p1h5 = document.getElementById('t2p1h5'),
+	t2p2h5 = document.getElementById('t2p2h5'),
+	t1p1h6 = document.getElementById('t1p1h6'),
+	t1p2h6 = document.getElementById('t1p2h6'),
+	t2p1h6 = document.getElementById('t2p1h6'),
+	t2p2h6 = document.getElementById('t2p2h6'),
+	t1p1h7 = document.getElementById('t1p1h7'),
+	t1p2h7 = document.getElementById('t1p2h7'),
+	t2p1h7 = document.getElementById('t2p1h7'),
+	t2p2h7 = document.getElementById('t2p2h7'),
+	t1p1h8 = document.getElementById('t1p1h8'),
+	t1p2h8 = document.getElementById('t1p2h8'),
+	t2p1h8 = document.getElementById('t2p1h8'),
+	t2p2h8 = document.getElementById('t2p2h8'),
+	t1p1h9 = document.getElementById('t1p1h9'),
+	t1p2h9 = document.getElementById('t1p2h9'),
+	t2p1h9 = document.getElementById('t2p1h9'),
+	t2p2h9 = document.getElementById('t2p2h9'),
+	t1p1h10 = document.getElementById('t1p1h10'),
+	t1p2h10 = document.getElementById('t1p2h10'),
+	t2p1h10 = document.getElementById('t2p1h10'),
+	t2p2h10 = document.getElementById('t2p2h10'),
+	t1p1h11 = document.getElementById('t1p1h11'),
+	t1p2h11 = document.getElementById('t1p2h11'),
+	t2p1h11 = document.getElementById('t2p1h11'),
+	t2p2h11 = document.getElementById('t2p2h11'),
+	t1p1h12 = document.getElementById('t1p1h12'),
+	t1p2h12 = document.getElementById('t1p2h12'),
+	t2p1h12 = document.getElementById('t2p1h12'),
+	t2p2h12 = document.getElementById('t2p2h12'),
+	t1p1h13 = document.getElementById('t1p1h13'),
+	t1p2h13 = document.getElementById('t1p2h13'),
+	t2p1h13 = document.getElementById('t2p1h13'),
+	t2p2h13 = document.getElementById('t2p2h13'),
+	t1p1h14 = document.getElementById('t1p1h14'),
+	t1p2h14 = document.getElementById('t1p2h14'),
+	t2p1h14 = document.getElementById('t2p1h14'),
+	t2p2h14 = document.getElementById('t2p2h14'),
+	t1p1h15 = document.getElementById('t1p1h15'),
+	t1p2h15 = document.getElementById('t1p2h15'),
+	t2p1h15 = document.getElementById('t2p1h15'),
+	t2p2h15 = document.getElementById('t2p2h15'),
+	t1p1h16 = document.getElementById('t1p1h16'),
+	t1p2h16 = document.getElementById('t1p2h16'),
+	t2p1h16 = document.getElementById('t2p1h16'),
+	t2p2h16 = document.getElementById('t2p2h16'),
+	t1p1h17 = document.getElementById('t1p1h17'),
+	t1p2h17 = document.getElementById('t1p2h17'),
+	t2p1h17 = document.getElementById('t2p1h17'),
+	t2p2h17 = document.getElementById('t2p2h17'),
+	t1p1h18 = document.getElementById('t1p1h18'),
+	t1p2h18 = document.getElementById('t1p2h18'),
+	t2p1h18 = document.getElementById('t2p1h18'),
+	t2p2h18 = document.getElementById('t2p2h18'),
+	t1p1Sum = document.getElementById('t1p1Sum'),
+	t1p2Sum = document.getElementById('t1p2Sum'),
+	t2p1Sum = document.getElementById('t2p1Sum'),
+	t2p2Sum = document.getElementById('t2p2Sum');
+
+function styleScorecard(par,score,scorecardID,total,sum) {
+	switch (score - par) {
+		case 3:
+		case 2:
+			scorecardID.classList.add("double-bogey");
+			break;
+		case 1:
+			scorecardID.classList.add("bogey");
+			break;
+		case 0:
+			scorecardID.classList.add("par");
+			break;
+		case -1:
+			scorecardID.classList.add("birdie");
+			break;
+		case -2:
+		case -3:
+		case -4:
+		case -5:
+			scorecardID.classList.add("under-birdie");
+			break;
+	};
+	scorecardID.innerText = score;
+	total.push(score);
+	let totes = total.reduce(function(a,b) {
+		return a + b;
+	},0);
+	sum.innerText = totes;
+}
+
+function writeScorestoScorecardModal() {
+	let t1p1Total = [];
+	let t1p2Total = [];
+	let t2p1Total = [];
+	let t2p2Total = [];
+	let c = getSelectedHole().courseID;
+	let hole_1 = JSON.parse(localStorage.getItem(c + '-0'));
+	let hole_2 = JSON.parse(localStorage.getItem(c + '-1'));
+	let hole_3 = JSON.parse(localStorage.getItem(c + '-2'));
+	let hole_4 = JSON.parse(localStorage.getItem(c + '-3'));
+	let hole_5 = JSON.parse(localStorage.getItem(c + '-4'));
+	let hole_6 = JSON.parse(localStorage.getItem(c + '-5'));
+	let hole_7 = JSON.parse(localStorage.getItem(c + '-6'));
+	let hole_8 = JSON.parse(localStorage.getItem(c + '-7'));
+	let hole_9 = JSON.parse(localStorage.getItem(c + '-8'));
+	let hole_10 = JSON.parse(localStorage.getItem(c + '-9'));
+	let hole_11 = JSON.parse(localStorage.getItem(c + '-10'));
+	let hole_12 = JSON.parse(localStorage.getItem(c + '-11'));
+	let hole_13 = JSON.parse(localStorage.getItem(c + '-12'));
+	let hole_14 = JSON.parse(localStorage.getItem(c + '-13'));
+	let hole_15 = JSON.parse(localStorage.getItem(c + '-14'));
+	let hole_16 = JSON.parse(localStorage.getItem(c + '-15'));
+	let hole_17 = JSON.parse(localStorage.getItem(c + '-16'));
+	let hole_18 = JSON.parse(localStorage.getItem(c + '-17'));
+	if (hole_1 !== null) {
+		styleScorecard(hole_1.par, hole_1.t1p1Score, t1p1h1, t1p1Total, t1p1Sum);
+		styleScorecard(hole_1.par, hole_1.t1p2Score, t1p2h1, t1p2Total, t1p2Sum);
+		styleScorecard(hole_1.par, hole_1.t2p1Score, t2p1h1, t2p1Total, t2p1Sum);
+		styleScorecard(hole_1.par, hole_1.t2p2Score, t2p2h1, t2p2Total, t2p2Sum);
+	};
+	if (hole_2 !== null) {
+		styleScorecard(hole_2.par, hole_2.t1p1Score, t1p1h2, t1p1Total, t1p1Sum);
+		styleScorecard(hole_2.par, hole_2.t1p2Score, t1p2h2, t1p2Total, t1p2Sum);
+		styleScorecard(hole_2.par, hole_2.t2p1Score, t2p1h2, t2p1Total, t2p1Sum);
+		styleScorecard(hole_2.par, hole_2.t2p2Score, t2p2h2, t2p2Total, t2p2Sum);
+	};
+	if (hole_3 !== null) {
+		styleScorecard(hole_3.par, hole_3.t1p1Score, t1p1h3, t1p1Total, t1p1Sum);
+		styleScorecard(hole_3.par, hole_3.t1p2Score, t1p2h3, t1p2Total, t1p2Sum);
+		styleScorecard(hole_3.par, hole_3.t2p1Score, t2p1h3, t2p1Total, t2p1Sum);
+		styleScorecard(hole_3.par, hole_3.t2p2Score, t2p2h3, t2p2Total, t2p2Sum);
+	};
+	if (hole_4 !== null) {		
+		styleScorecard(hole_4.par, hole_4.t1p1Score, t1p1h4, t1p1Total, t1p1Sum);
+		styleScorecard(hole_4.par, hole_4.t1p2Score, t1p2h4, t1p2Total, t1p2Sum);
+		styleScorecard(hole_4.par, hole_4.t2p1Score, t2p1h4, t2p1Total, t2p1Sum);
+		styleScorecard(hole_4.par, hole_4.t2p2Score, t2p2h4, t2p2Total, t2p2Sum);
+	};
+	if (hole_5 !== null) {
+		styleScorecard(hole_5.par, hole_5.t1p1Score, t1p1h5, t1p1Total, t1p1Sum);
+		styleScorecard(hole_5.par, hole_5.t1p2Score, t1p2h5, t1p2Total, t1p2Sum);
+		styleScorecard(hole_5.par, hole_5.t2p1Score, t2p1h5, t2p1Total, t2p1Sum);
+		styleScorecard(hole_5.par, hole_5.t2p2Score, t2p2h5, t2p2Total, t2p2Sum);
+	};
+	if (hole_6 !== null) {
+		styleScorecard(hole_6.par, hole_6.t1p1Score, t1p1h6, t1p1Total, t1p1Sum);
+		styleScorecard(hole_6.par, hole_6.t1p2Score, t1p2h6, t1p2Total, t1p2Sum);
+		styleScorecard(hole_6.par, hole_6.t2p1Score, t2p1h6, t2p1Total, t2p1Sum);
+		styleScorecard(hole_6.par, hole_6.t2p2Score, t2p2h6, t2p2Total, t2p2Sum);
+	};
+	if (hole_7 !== null) {
+		styleScorecard(hole_7.par, hole_7.t1p1Score, t1p1h7, t1p1Total, t1p1Sum);
+		styleScorecard(hole_7.par, hole_7.t1p2Score, t1p2h7, t1p2Total, t1p2Sum);
+		styleScorecard(hole_7.par, hole_7.t2p1Score, t2p1h7, t2p1Total, t2p1Sum);
+		styleScorecard(hole_7.par, hole_7.t2p2Score, t2p2h7, t2p2Total, t2p2Sum);
+	};
+	if (hole_8 !== null) {
+		styleScorecard(hole_8.par, hole_8.t1p1Score, t1p1h8, t1p1Total, t1p1Sum);
+		styleScorecard(hole_8.par, hole_8.t1p2Score, t1p2h8, t1p2Total, t1p2Sum);
+		styleScorecard(hole_8.par, hole_8.t2p1Score, t2p1h8, t2p1Total, t2p1Sum);
+		styleScorecard(hole_8.par, hole_8.t2p2Score, t2p2h8, t2p2Total, t2p2Sum);
+	};
+	if (hole_9 !== null) {
+		styleScorecard(hole_9.par, hole_9.t1p1Score, t1p1h9, t1p1Total, t1p1Sum);
+		styleScorecard(hole_9.par, hole_9.t1p2Score, t1p2h9, t1p2Total, t1p2Sum);
+		styleScorecard(hole_9.par, hole_9.t2p1Score, t2p1h9, t2p1Total, t2p1Sum);
+		styleScorecard(hole_9.par, hole_9.t2p2Score, t2p2h9, t2p2Total, t2p2Sum);
+	};
+	if (hole_10 !== null) {
+		styleScorecard(hole_10.par, hole_10.t1p1Score, t1p1h10, t1p1Total, t1p1Sum);
+		styleScorecard(hole_10.par, hole_10.t1p2Score, t1p2h10, t1p2Total, t1p2Sum);
+		styleScorecard(hole_10.par, hole_10.t2p1Score, t2p1h10, t2p1Total, t2p1Sum);
+		styleScorecard(hole_10.par, hole_10.t2p2Score, t2p2h10, t2p2Total, t2p2Sum);
+	};
+	if (hole_11 !== null) {
+		styleScorecard(hole_11.par, hole_11.t1p1Score, t1p1h11, t1p1Total, t1p1Sum);
+		styleScorecard(hole_11.par, hole_11.t1p2Score, t1p2h11, t1p2Total, t1p2Sum);
+		styleScorecard(hole_11.par, hole_11.t2p1Score, t2p1h11, t2p1Total, t2p1Sum);
+		styleScorecard(hole_11.par, hole_11.t2p2Score, t2p2h11, t2p2Total, t2p2Sum);
+	};
+	if (hole_12 !== null) {
+		styleScorecard(hole_12.par, hole_12.t1p1Score, t1p1h12, t1p1Total, t1p1Sum);
+		styleScorecard(hole_12.par, hole_12.t1p2Score, t1p2h12, t1p2Total, t1p2Sum);
+		styleScorecard(hole_12.par, hole_12.t2p1Score, t2p1h12, t2p1Total, t2p1Sum);
+		styleScorecard(hole_12.par, hole_12.t2p2Score, t2p2h12, t2p2Total, t2p2Sum);
+	};
+	if (hole_13 !== null) {
+		styleScorecard(hole_13.par, hole_13.t1p1Score, t1p1h13, t1p1Total, t1p1Sum);
+		styleScorecard(hole_13.par, hole_13.t1p2Score, t1p2h13, t1p2Total, t1p2Sum);
+		styleScorecard(hole_13.par, hole_13.t2p1Score, t2p1h13, t2p1Total, t2p1Sum);
+		styleScorecard(hole_13.par, hole_13.t2p2Score, t2p2h13, t2p2Total, t2p2Sum);
+	};
+	if (hole_14 !== null) {
+		styleScorecard(hole_14.par, hole_14.t1p1Score, t1p1h14, t1p1Total, t1p1Sum);
+		styleScorecard(hole_14.par, hole_14.t1p2Score, t1p2h14, t1p2Total, t1p2Sum);
+		styleScorecard(hole_14.par, hole_14.t2p1Score, t2p1h14, t2p1Total, t2p1Sum);
+		styleScorecard(hole_14.par, hole_14.t2p2Score, t2p2h14, t2p2Total, t2p2Sum);
+	};
+	if (hole_15 !== null) {
+		styleScorecard(hole_15.par, hole_15.t1p1Score, t1p1h15, t1p1Total, t1p1Sum);
+		styleScorecard(hole_15.par, hole_15.t1p2Score, t1p2h15, t1p2Total, t1p2Sum);
+		styleScorecard(hole_15.par, hole_15.t2p1Score, t2p1h15, t2p1Total, t2p1Sum);
+		styleScorecard(hole_15.par, hole_15.t2p2Score, t2p2h15, t2p2Total, t2p2Sum);
+	};
+	if (hole_16 !== null) {
+		styleScorecard(hole_16.par, hole_16.t1p1Score, t1p1h16, t1p1Total, t1p1Sum);
+		styleScorecard(hole_16.par, hole_16.t1p2Score, t1p2h16, t1p2Total, t1p2Sum);
+		styleScorecard(hole_16.par, hole_16.t2p1Score, t2p1h16, t2p1Total, t2p1Sum);
+		styleScorecard(hole_16.par, hole_16.t2p2Score, t2p2h16, t2p2Total, t2p2Sum);
+	};
+	if (hole_17 !== null) {
+		styleScorecard(hole_17.par, hole_17.t1p1Score, t1p1h17, t1p1Total, t1p1Sum);
+		styleScorecard(hole_17.par, hole_17.t1p2Score, t1p2h17, t1p2Total, t1p2Sum);
+		styleScorecard(hole_17.par, hole_17.t2p1Score, t2p1h17, t2p1Total, t2p1Sum);
+		styleScorecard(hole_17.par, hole_17.t2p2Score, t2p2h17, t2p2Total, t2p2Sum);
+	};
+	if (hole_18 !== null) {
+		styleScorecard(hole_18.par, hole_18.t1p1Score, t1p1h18, t1p1Total, t1p1Sum);
+		styleScorecard(hole_18.par, hole_18.t1p2Score, t1p2h18, t1p2Total, t1p2Sum);
+		styleScorecard(hole_18.par, hole_18.t2p1Score, t2p1h18, t2p1Total, t2p1Sum);
+		styleScorecard(hole_18.par, hole_18.t2p2Score, t2p2h18, t2p2Total, t2p2Sum);
+	};
+}
+
+showScorecardButton.addEventListener('click', writeScorestoScorecardModal);
+
 //
 //
 //Adding in a beta mode so that I don't have to go throught the whole thing everytime****************
+function resetAll() {
+	localStorage.clear();
+	location.reload();
+}
+editPlayerNames.addEventListener('click',resetAll);
+
 const betaButton = document.getElementById('skip-ahead');
 betaButton.addEventListener('click', function () {
-	courseHoleSelectionCard.style.display = '';
-	scoreEntryCard.style.display = '';
-	holeInfoCard.style.display = '';
-	changeHoleButton.style.display = '';
 	document.getElementById('team1player1Name-input').value = 'Jake';
 	document.getElementById('team1player2Name-input').value = 'Luke';
 	document.getElementById('team2player1Name-input').value = 'Matt';
 	document.getElementById('team2player2Name-input').value = 'Schneider';
 	validateNamesEntered();
-	playerNameInputCard.style.display = '';
-	courseDropdown.value = '0';
 	validateCouseHole();
 	displayHoleSelected();
+	playerNameInputCard.style.display = '';
+	courseDropdown.value = '0';
+	betaButton.style.display = 'none';
+	scoreEntryCard.style.display = '';
+	holeInfoCard.style.display = '';
+	changeHoleButton.style.display = '';
 	courseHoleSelectionCard.style.display = '';
+	editPlayerNames.style.display = '';
 });
 //End of BETA MODE***********************************************************************************
