@@ -79,9 +79,8 @@ legend {
     font-feature-settings: 'liga';
 }
 .full-screen-modal {
-      margin: 0px;
-      height: calc(100vh - 1%);
-      width: 100vw;
+      margin: .25rem;
+      height: 100vh;
 }
 .full-screen-modal>div {
       border-radius: 4px;
@@ -97,6 +96,7 @@ table {
 }
 .blank-table-cell {
     border: none;
+    background-color:#fff;
 }
 th, td {
     border: 1px solid black;
@@ -107,11 +107,7 @@ th, td {
     font-weight: 700;
 }
 .scorecard-player-names {
-    overflow: hidden;
     display: inline;
-}
-.header-row {
-    height: auto;
 }
 .player-score {
     display: inline-block;
@@ -138,7 +134,4 @@ th, td {
     border: medium;
     border-style: double;
     border-radius: 16px;
-}
-tr {
-    height: 37px;
 }
