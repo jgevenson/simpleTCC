@@ -664,20 +664,19 @@ function writeNamesLocal() {
 	playerNamesExist = true;
 }
 
-function writeNamesToEnterScores() {
+function writeNamesToEnterScores(n) {
 	let t1p1_Name = localStorage.getItem('team1player1Name'),
 		t1p2_Name = localStorage.getItem('team1player2Name'),
 		t2p1_Name = localStorage.getItem('team2player1Name'),
 		t2p2_Name = localStorage.getItem('team2player2Name');
-	let n = 8;
 	team1player1Label.innerText = truncateString(t1p1_Name, n);
 	team1player2Label.innerText = truncateString(t1p2_Name, n);
 	team2player1Label.innerText = truncateString(t2p1_Name, n);
 	team2player2Label.innerText = truncateString(t2p2_Name, n);
-	scorecard_t1p1_name.innerText = truncateString(t1p1_Name, n);
-	scorecard_t1p2_name.innerText = truncateString(t1p2_Name, n);
-	scorecard_t2p1_name.innerText = truncateString(t2p1_Name, n);
-	scorecard_t2p2_name.innerText = truncateString(t2p2_Name, n);
+	scorecard_t1p1_name.innerText = truncateString(t1p1_Name, n - 2);
+	scorecard_t1p2_name.innerText = truncateString(t1p2_Name, n - 2);
+	scorecard_t2p1_name.innerText = truncateString(t2p1_Name, n - 2);
+	scorecard_t2p2_name.innerText = truncateString(t2p2_Name, n - 2);
 }
 
 function validateNamesEntered() {
@@ -699,7 +698,7 @@ function validateNamesEntered() {
 		nameCardValid = false;
 	} else {
 		writeNamesLocal();
-		writeNamesToEnterScores();
+		writeNamesToEnterScores(8);
 		playerNameInputCard.style.display = 'none';
 		courseHoleSelectionCard.style.display = '';
 	}
@@ -938,7 +937,7 @@ submitPageButton.addEventListener('click', calculateHole);
 
 function goToNextHole() {
 	if (playerNamesExist) {
-		writeNamesToEnterScores();
+		writeNamesToEnterScores(8);
 		if (holeDropdown.value <= 16) {
 			holeDropdown.value++;
 		} else {
@@ -1030,7 +1029,25 @@ let t1p1h1 = document.getElementById('t1p1h1'),
 	t1p1Sum = document.getElementById('t1p1Sum'),
 	t1p2Sum = document.getElementById('t1p2Sum'),
 	t2p1Sum = document.getElementById('t2p1Sum'),
-	t2p2Sum = document.getElementById('t2p2Sum');
+	t2p2Sum = document.getElementById('t2p2Sum'),
+	score_Game_Toggle = document.getElementById('scorecard-gamecard-toggle'),
+	scorecard_collapse = document.getElementById('scorecard_collapse'),
+	gamecard_collapse = document.getElementById('gamecard_collapse');
+
+//Gamecard v. Scorecard Button
+score_Game_Toggle.innerText = 'Show Gamecard';
+score_Game_Toggle.classList.add('btn-secondary');
+function toggleButtonText() {
+	if (scorecard_collapse.classList.contains('show')) {
+		score_Game_Toggle.innerText = 'Show Scorecard';
+		score_Game_Toggle.classList.remove('btn-secondary');
+		score_Game_Toggle.classList.add('btn-primary');
+	} else {
+		score_Game_Toggle.innerText = 'Show Gamecard';
+		score_Game_Toggle.classList.remove('btn-primary');
+		score_Game_Toggle.classList.add('btn-secondary');
+	};
+}
 
 function styleScorecard(par,score,scorecardID,total,sum) {
 	switch (score - par) {
@@ -1214,10 +1231,10 @@ betaButton.addEventListener('click', function () {
 	document.getElementById('team2player1Name-input').value = 'Matt';
 	document.getElementById('team2player2Name-input').value = 'Schneider';
 	validateNamesEntered();
-	validateCouseHole();
-	displayHoleSelected();
 	playerNameInputCard.style.display = '';
 	courseDropdown.value = '0';
+	validateCouseHole();
+	displayHoleSelected();
 	betaButton.style.display = 'none';
 	scoreEntryCard.style.display = '';
 	holeInfoCard.style.display = '';
