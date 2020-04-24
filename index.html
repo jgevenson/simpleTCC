@@ -12,11 +12,11 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Tsunami's Cup</a>
+    <!-- <a class="navbar-brand" href="#">Tsunami's Cup</a> -->
+    <button class="btn btn-warning" id="edit-player-names">reset ALL</button>
+    <button type="button" class="btn btn-warning" id="skip-ahead">Beta</button>
     <button class="btn btn-secondary" id="change-hole-button">Change Hole</button>
-    <button class="btn btn-secondary" id="edit-player-names">Edit Names</button>
-    <button type="button" class="btn btn-toolbar" data-toggle="modal" data-target="#scorecard" id="showScorecardButton">Scorecard</button>
-    <button type="button" class="btn btn-toolbar" id="skip-ahead">Beta</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scorecard" id="showScorecardButton">Scorecard</button>
   </nav>
   <div class="container-fluid">
     <div class="card" id="player-names-input-card">
@@ -58,8 +58,8 @@
     </div>
     <div class="card" id="selector-card">
       <div class="row">
-        <div class="col-6" id="course-select-form">
-          <form>
+        <div id="course-select-form">
+          <form class="col-12"></form>
             <div class="form-group">
               <label>Select Course:</label>
               <select class="form-control form-control-lg" id="course-select">
@@ -71,7 +71,7 @@
             </div>
           </form>
         </div>
-        <div id="hole-select-form" class="col-6">
+        <div id="hole-select-form" class="col-12">
           <form>
             <div class="form-group">
               <label>Select Hole:</label>
@@ -260,16 +260,16 @@
             <tr class="header-row">
               <th class="blank-table-cell"></th>
               <th>
-                <div class="scorecard-player-names" id="scorecard-team1player1-name">Jake</div>
+                <div class="scorecard-player-names" id="scorecard-team1player1-name"></div>
               </th>
               <th>
-                <div class="scorecard-player-names" id="scorecard-team1player2-name">Luke</div>
+                <div class="scorecard-player-names" id="scorecard-team1player2-name"></div>
               </th>
               <th>
-                <div class="scorecard-player-names" id="scorecard-team2player1-name">Matt</div>
+                <div class="scorecard-player-names" id="scorecard-team2player1-name"></div>
               </th>
               <th>
-                <div class="scorecard-player-names" id="scorecard-team2player2-name">Schnei</div>
+                <div class="scorecard-player-names" id="scorecard-team2player2-name"></div>
               </th>
               <!--FIVE CHARACTER MAX Going to have to calculate that in JS-->
             </tr>
@@ -544,11 +544,11 @@
               </td>
             </tr>
             <tr id="scorecard-total-row">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td class="scorecard-player-cell"></td>
+              <td><div id="t1p1Sum" class="player-score"></div></td>
+              <td><div id="t1p2Sum" class="player-score"></div></td>
+              <td><div id="t2p1Sum" class="player-score"></div></td>
+              <td><div id="t2p2Sum" class="player-score"></div></td>
             </tr>
           </table>
         </div>
