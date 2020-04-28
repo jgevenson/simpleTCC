@@ -13,8 +13,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- <a class="navbar-brand" href="#">Tsunami's Cup</a> -->
-    <button class="btn btn-warning" id="edit-player-names">reset ALL</button>
-    <!-- <button type="button" class="btn btn-warning" id="skip-ahead">Beta</button> -->
+    <button type="button" class="btn btn-warning" id="skip-ahead">Beta</button>
     <button class="btn btn-secondary" id="change-hole-button">Change Hole</button>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scorecard" id="showScorecardButton">Scorecard</button>
   </nav>
@@ -243,7 +242,7 @@
   </div>
   <!-- Scorecard -->
   <div class="modal fade" id="scorecard" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-scrollable full-screen-modal" role="document">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <div class="btn-group" role="group">
@@ -568,8 +567,192 @@
               </table>
             </div>
             <div class="collapse multi-collapse" id="gamecard_collapse">
-              <!--This is where I need to create the game card!-->
-              <h1>Hello</h1>
+              <table class="table-striped">
+                <thead>
+                  <colgroup>
+                    <col style="width:10%;">
+                    <col style="width:40%;">
+                    <col style="width:40%;">
+                  </colgroup>
+                  <tr>
+                    <th class="blank-table-cell"></th>
+                    <th id="gamecard-team1-name">team1</th>
+                    <th id="gamecard-team2-name">team2</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="gamecard-hole-number">1</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole1"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole1"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">2</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole2"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole2"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">3</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole3"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole3"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">4</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole4"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole4"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">5</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole5"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole5"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">6</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole6"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole6"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">7</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole7"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole7"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">8</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole8"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole8"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">9</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole9"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole9"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">10</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole10"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole10"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">11</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole11"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole11"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">12</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole12"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole12"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">13</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole13"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole13"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">14</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole14"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole14"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">15</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole15"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole15"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">16</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole16"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole16"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">17</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole17"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole17"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="gamecard-hole-number">18</td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-hole18"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-hole18"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="blank-table-cell"></td>
+                    <td>
+                      <div class="gamecard-score team1-score" id="gamecard-team1-overall"></div>
+                    </td>
+                    <td>
+                      <div class="gamecard-score team2-score" id="gamecard-team2-overall"></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
