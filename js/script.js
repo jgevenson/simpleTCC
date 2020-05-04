@@ -1,559 +1,6 @@
+import * as courseInfo from './hole_data.js';
+import * as utils from './utils.js';
 
-const deaconHoleInfo = [
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 1,
-		"black": 444,
-		"blue": 415,
-		"white": 399,
-		"holePar": 4,
-		"holeHandicap": 3
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 2,
-		"black": 540,
-		"blue": 520,
-		"white": 462,
-		"holePar": 5,
-		"holeHandicap": 5
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 3,
-		"black": 188,
-		"blue": 164,
-		"white": 144,
-		"holePar": 3,
-		"holeHandicap": 13
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 4,
-		"black": 419,
-		"blue": 399,
-		"white": 354,
-		"holePar": 4,
-		"holeHandicap": 9
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 5,
-		"black": 433,
-		"blue": 415,
-		"white": 400,
-		"holePar": 4,
-		"holeHandicap": 7
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 6,
-		"black": 115,
-		"blue": 108,
-		"white": 91,
-		"holePar": 3,
-		"holeHandicap": 17
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 7,
-		"black": 432,
-		"blue": 412,
-		"white": 385,
-		"holePar": 4,
-		"holeHandicap": 1
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 8,
-		"black": 408,
-		"blue": 374,
-		"white": 326,
-		"holePar": 4,
-		"holeHandicap": 15
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 9,
-		"black": 543,
-		"blue": 533,
-		"white": 480,
-		"holePar": 5,
-		"holeHandicap": 11
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 10,
-		"black": 373,
-		"blue": 357,
-		"white": 329,
-		"holePar": 4,
-		"holeHandicap": 14
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 11,
-		"black": 196,
-		"blue": 183,
-		"white": 176,
-		"holePar": 3,
-		"holeHandicap": 12
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 12,
-		"black": 340,
-		"blue": 320,
-		"white": 295,
-		"holePar": 4,
-		"holeHandicap": 18
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 13,
-		"black": 450,
-		"blue": 422,
-		"white": 380,
-		"holePar": 4,
-		"holeHandicap": 4
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 14,
-		"black": 534,
-		"blue": 512,
-		"white": 475,
-		"holePar": 5,
-		"holeHandicap": 8
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 15,
-		"black": 452,
-		"blue": 427,
-		"white": 413,
-		"holePar": 4,
-		"holeHandicap": 2
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 16,
-		"black": 375,
-		"blue": 362,
-		"white": 343,
-		"holePar": 4,
-		"holeHandicap": 16
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 17,
-		"black": 200,
-		"blue": 174,
-		"white": 144,
-		"holePar": 3,
-		"holeHandicap": 6
-	},
-	{
-		"courseString": "Deacon\'s Lodge",
-		"courseID": 0,
-		"hole": 18,
-		"black": 535,
-		"blue": 525,
-		"white": 495,
-		"holePar": 5,
-		"holeHandicap": 10
-	}
-];
-const traditionalHoleInfo = [
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 1,
-		"black": null,
-		"blue": null,
-		"white": 307,
-		"holePar": 4,
-		"holeHandicap": 9
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 2,
-		"black": null,
-		"blue": null,
-		"white": 145,
-		"holePar": 3,
-		"holeHandicap": 15
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 3,
-		"black": null,
-		"blue": null,
-		"white": 241,
-		"holePar": 4,
-		"holeHandicap": 17
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 4,
-		"black": null,
-		"blue": null,
-		"white": 275,
-		"holePar": 4,
-		"holeHandicap": 13
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 5,
-		"black": null,
-		"blue": null,
-		"white": 367,
-		"holePar": 4,
-		"holeHandicap": 1
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 6,
-		"black": null,
-		"blue": null,
-		"white": 156,
-		"holePar": 3,
-		"holeHandicap": 11
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 7,
-		"black": null,
-		"blue": null,
-		"white": 354,
-		"holePar": 4,
-		"holeHandicap": 3
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 8,
-		"black": null,
-		"blue": null,
-		"white": 318,
-		"holePar": 4,
-		"holeHandicap": 7
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 9,
-		"black": null,
-		"blue": null,
-		"white": 370,
-		"holePar": 4,
-		"holeHandicap": 5
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 10,
-		"black": null,
-		"blue": null,
-		"white": 346,
-		"holePar": 4,
-		"holeHandicap": 12
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 11,
-		"black": null,
-		"blue": null,
-		"white": 182,
-		"holePar": 3,
-		"holeHandicap": 18
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 12,
-		"black": null,
-		"blue": null,
-		"white": 305,
-		"holePar": 4,
-		"holeHandicap": 10
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 13,
-		"black": null,
-		"blue": null,
-		"white": 171,
-		"holePar": 3,
-		"holeHandicap": 16
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 14,
-		"black": null,
-		"blue": null,
-		"white": 292,
-		"holePar": 4,
-		"holeHandicap": 14
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 15,
-		"black": null,
-		"blue": null,
-		"white": 330,
-		"holePar": 4,
-		"holeHandicap": 4
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 16,
-		"black": null,
-		"blue": null,
-		"white": 318,
-		"holePar": 4,
-		"holeHandicap": 2
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 17,
-		"black": null,
-		"blue": null,
-		"white": 350,
-		"holePar": 4,
-		"holeHandicap": 8
-	},
-	{
-		"courseString": "Traditional",
-		"courseID": 1,
-		"hole": 18,
-		"black": null,
-		"blue": null,
-		"white": 365,
-		"holePar": 4,
-		"holeHandicap": 6
-	}
-];
-const whitebirchHoleInfo = [
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 1,
-		"black": 341,
-		"blue": 322,
-		"white": 309,
-		"holePar": 4,
-		"holeHandicap": 13
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 2,
-		"black": 300,
-		"blue": 269,
-		"white": 244,
-		"holePar": 4,
-		"holeHandicap": 17
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 3,
-		"black": 442,
-		"blue": 423,
-		"white": 400,
-		"holePar": 4,
-		"holeHandicap": 3
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 4,
-		"black": 520,
-		"blue": 510,
-		"white": 490,
-		"holePar": 5,
-		"holeHandicap": 7
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 5,
-		"black": 176,
-		"blue": 168,
-		"white": 147,
-		"holePar": 3,
-		"holeHandicap": 15
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 6,
-		"black": 380,
-		"blue": 349,
-		"white": 329,
-		"holePar": 4,
-		"holeHandicap": 5
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 7,
-		"black": 536,
-		"blue": 483,
-		"white": 457,
-		"holePar": 5,
-		"holeHandicap": 1
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 8,
-		"black": 314,
-		"blue": 308,
-		"white": 293,
-		"holePar": 4,
-		"holeHandicap": 11
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 9,
-		"black": 217,
-		"blue": 207,
-		"white": 193,
-		"holePar": 3,
-		"holeHandicap": 9
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 10,
-		"black": 406,
-		"blue": 388,
-		"white": 370,
-		"holePar": 4,
-		"holeHandicap": 4
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 11,
-		"black": 479,
-		"blue": 433,
-		"white": 400,
-		"holePar": 4,
-		"holeHandicap": 2
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 12,
-		"black": 190,
-		"blue": 185,
-		"white": 144,
-		"holePar": 3,
-		"holeHandicap": 18
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 13,
-		"black": 373,
-		"blue": 363,
-		"white": 353,
-		"holePar": 4,
-		"holeHandicap": 14
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 14,
-		"black": 374,
-		"blue": 353,
-		"white": 326,
-		"holePar": 4,
-		"holeHandicap": 10
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 15,
-		"black": 502,
-		"blue": 461,
-		"white": 429,
-		"holePar": 5,
-		"holeHandicap": 6
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 16,
-		"black": 362,
-		"blue": 354,
-		"white": 324,
-		"holePar": 4,
-		"holeHandicap": 12
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 17,
-		"black": 205,
-		"blue": 193,
-		"white": 144,
-		"holePar": 3,
-		"holeHandicap": 16
-	},
-	{
-		"courseString": "Whitebirtch",
-		"courseID": 2,
-		"hole": 18,
-		"black": 563,
-		"blue": 523,
-		"white": 464,
-		"holePar": 5,
-		"holeHandicap": 8
-	}
-];
-//___________________________________________Helper Functions_________________________________________
-//truncate a string to a given number of characters
-function truncateString(string, num) {
-	if (String(string).length <= num) {
-		return string;
-	} else {
-		return String(string).slice(0, num);
-	}
-}
 
 const showScorecardButton = document.getElementById('showScorecardButton'),
 	playerNameInputCard = document.getElementById('player-names-input-card'),
@@ -576,12 +23,12 @@ const showScorecardButton = document.getElementById('showScorecardButton'),
 	hdcpDisplay = document.getElementById('hdcp-display'),
 	distanceDisplay = document.getElementById('distance-display'),
 	scoreEntryCard = document.getElementById('scores-entry-card'),
-	team1Label = document.getElementById('team1-label'),
+	//team1Label = document.getElementById('team1-label'),
 	team1player1Label = document.getElementById('team1player1-label'),
 	team1player1ScoreInput = document.getElementById('team1player1-score-input'),
 	team1player2Label = document.getElementById('team1player2-label'),
 	team1player2ScoreInput = document.getElementById('team1player2-score-input'),
-	team2Label = document.getElementById('team2-label'),
+	//team2Label = document.getElementById('team2-label'),
 	team2player1Label = document.getElementById('team2player1-label'),
 	team2player1ScoreInput = document.getElementById('team2player1-score-input'),
 	team2player2Label = document.getElementById('team2player2-label'),
@@ -598,7 +45,7 @@ const showScorecardButton = document.getElementById('showScorecardButton'),
 	//submit button
 	submitPageButton = document.getElementById('submit-page-button'),
 	holeResultModalHeader = document.getElementById('hole-result-modal-header'),
-	modalBody = document.getElementById('hole-result-modal-boy'),
+	//modalBody = document.getElementById('hole-result-modal-boy'),
 	team1ScoreModalLabel = document.getElementById('team1-score-modal-label'),
 	team1ScoreDisplayModal = document.getElementById("team1-score-modal"),
 	team2ScoreModalLabel = document.getElementById('team2-score-modal-label'),
@@ -631,7 +78,7 @@ holeDropdown.value = 0;
 //Initialize Variables
 let courseHoleCardValid = false,
 	nameCardValid = false,
-	startOnOne = true,
+	//startOnOne = true,
 	playerNamesExist = false;
 
 function liveValidateNameCard() {
@@ -667,14 +114,14 @@ function writeNamesToEnterScores(n) {
 		t1p2_Name = localStorage.getItem('team1player2Name'),
 		t2p1_Name = localStorage.getItem('team2player1Name'),
 		t2p2_Name = localStorage.getItem('team2player2Name');
-	team1player1Label.innerText = truncateString(t1p1_Name, n);
-	team1player2Label.innerText = truncateString(t1p2_Name, n);
-	team2player1Label.innerText = truncateString(t2p1_Name, n);
-	team2player2Label.innerText = truncateString(t2p2_Name, n);
-	scorecard_t1p1_name.innerText = truncateString(t1p1_Name, n - 2);
-	scorecard_t1p2_name.innerText = truncateString(t1p2_Name, n - 2);
-	scorecard_t2p1_name.innerText = truncateString(t2p1_Name, n - 2);
-	scorecard_t2p2_name.innerText = truncateString(t2p2_Name, n - 2);
+	team1player1Label.innerText = utils.truncateString(t1p1_Name, n);
+	team1player2Label.innerText = utils.truncateString(t1p2_Name, n);
+	team2player1Label.innerText = utils.truncateString(t2p1_Name, n);
+	team2player2Label.innerText = utils.truncateString(t2p2_Name, n);
+	scorecard_t1p1_name.innerText = utils.truncateString(t1p1_Name, n - 2);
+	scorecard_t1p2_name.innerText = utils.truncateString(t1p2_Name, n - 2);
+	scorecard_t2p1_name.innerText = utils.truncateString(t2p1_Name, n - 2);
+	scorecard_t2p2_name.innerText = utils.truncateString(t2p2_Name, n - 2);
 }
 
 function validateNamesEntered() {
@@ -710,16 +157,17 @@ function getSelectedCourse() {
 }
 
 function getSelectedHole() {
+	let holeObject;
 	let selectedHole = parseInt(holeDropdown.value);
 	switch (getSelectedCourse()) {
 		case 0:
-			holeObject = deaconHoleInfo[selectedHole];
+			holeObject = courseInfo.deaconHoleInfo[selectedHole];
 			break;
 		case 1:
-			holeObject = traditionalHoleInfo[selectedHole];
+			holeObject = courseInfo.traditionalHoleInfo[selectedHole];
 			break;
 		case 2:
-			holeObject = whitebirchHoleInfo[selectedHole];
+			holeObject = courseInfo.whitebirchHoleInfo[selectedHole];
 			break;
 	};
 	return holeObject;
@@ -874,14 +322,6 @@ function calculateHole() {
 	};
 	var team1Vegas = parseInt(team1Scores[0].toString() + team1Scores[1].toString());
 	var team2Vegas = parseInt(team2Scores[0].toString() + team2Scores[1].toString());
-	function pointOrPoints(a, b) {
-		if (a - b > 1) {
-			p = 'points';
-		} else {
-			p = 'point'
-		}
-		return p;
-	}
 	let hole_winner;
 	if (team1Vegas === team2Vegas) {
 		hole_winner = 0;
@@ -889,11 +329,11 @@ function calculateHole() {
 		//holeOverallReportModal.innerText = 'Next hole will be worth double points!';
 	} else if (team1Vegas > team2Vegas) {
 		hole_winner = 2;
-		modalHeaderText = localStorage.getItem('team2player1Name') + '/' + localStorage.getItem('team2player2Name') + ' win by ' + (team1Vegas - team2Vegas) + ' ' + pointOrPoints(team1Vegas, team2Vegas);
+		modalHeaderText = localStorage.getItem('team2player1Name') + '/' + localStorage.getItem('team2player2Name') + ' win by ' + (team1Vegas - team2Vegas) + ' ' + utils.pointOrPoints(team1Vegas, team2Vegas);
 		holeOverallReportModal.style.display = 'none';
 	} else {
 		hole_winner = 1;
-		modalHeaderText = localStorage.getItem('team1player1Name') + '/' + localStorage.getItem('team1player2Name') + ' win by ' + (team2Vegas - team1Vegas) + ' ' + pointOrPoints(team2Vegas, team1Vegas);
+		modalHeaderText = localStorage.getItem('team1player1Name') + '/' + localStorage.getItem('team1player2Name') + ' win by ' + (team2Vegas - team1Vegas) + ' ' + utils.pointOrPoints(team2Vegas, team1Vegas);
 		holeOverallReportModal.style.display = 'none';
 	};
 	let holeResult = {
@@ -1079,6 +519,8 @@ function toggleButtonText() {
 		score_Game_Toggle.classList.add('btn-secondary');
 	};
 }
+
+document.getElementById('scorecard-gamecard-toggle').addEventListener('click',toggleButtonText);
 
 function styleScorecard(par, score, scorecardID, total, sum) {
 	switch (score - par) {
